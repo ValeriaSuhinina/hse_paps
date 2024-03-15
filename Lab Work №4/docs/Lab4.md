@@ -134,7 +134,7 @@
          "description": "Нарушение безопасности",
          "location": "Стройплощадка",
          "date": "2022-12-12",
-         "resolution_status": "В процессе",
+         "resolution_status": "Открыто",
          "contractor_id": 1,
          "supervisor_id": 2,
          "construction_object_id": 1,
@@ -149,7 +149,7 @@
      ```
  2. Получение нарушений по подрядчику
     - **Метод:** GET
-    - **URL:** /violations/by_contractor_id
+    - **URL:** /violation/by_contractor_id
     - **Описание:**  Получает список нарушений, связанных с определенным подрядчиком.
     - **Параметры запроса:**
       - `contractor_id` (число, обязательно) - идентификатор подрядчика.
@@ -158,12 +158,7 @@
       - 200 OK
       - 422 Validation Error: Некорректный формат данных
      
-    **Пример запроса**
-    ```json
-       {
-         "id": 1
-       }
-    ```
+    **Пример запроса** GET violation/by_contractor_id?contractor_id=1
      
     **Пример ответа:**
     ```json
@@ -173,7 +168,7 @@
            "description": "Нарушение безопасности",
            "location": "Стройплощадка",
            "date": "2022-12-12",
-           "resolution_status": "В процессе",
+           "resolution_status": "Открыто",
            "contractor_id": 1,
            "supervisor_id": 2,
            "construction_object_id": 1,
@@ -184,7 +179,7 @@
            "description": "Нарушение порядка",
            "location": "Территория строительства",
            "date": "2022-10-10",
-           "resolution_status": "В процессе",
+           "resolution_status": "В работе",
            "contractor_id": 1,
            "supervisor_id": 3,
            "construction_object_id": 1,
@@ -194,7 +189,7 @@
      ```
 3. Получение нарушений по объекту строительства
     - **Метод:** GET
-    - **URL:** /violations/by_construction_object_id 
+    - **URL:** /violation/by_construction_object_id 
     - **Описание:**  Получает список нарушений, связанных с определенным объектом строительства.
     - **Параметры запроса:**
       - `construction_object_id` (число, обязательно) - идентификатор объекта строительства.
@@ -203,12 +198,7 @@
       - 200 OK
       - 422 Validation Error: Некорректный формат данных
      
-    **Пример запроса**
-    ```json
-       {
-         "id": 1
-       }
-    ```
+    **Пример запроса** GET violation/by_construction_object_id?construction_object_id=1
      
     **Пример ответа:**
     ```json
@@ -218,7 +208,7 @@
            "description": "Нарушение безопасности",
            "location": "Стройплощадка",
            "date": "2022-12-12",
-           "resolution_status": "В процессе",
+           "resolution_status": "Открыто",
            "contractor_id": 3,
            "supervisor_id": 2,
            "construction_object_id": 1,
@@ -229,7 +219,7 @@
            "description": "Нарушение порядка",
            "location": "Территория строительства",
            "date": "2022-10-10",
-           "resolution_status": "В процессе",
+           "resolution_status": "В работе",
            "contractor_id": 8,
            "supervisor_id": 3,
            "construction_object_id": 1,
@@ -239,7 +229,7 @@
      ``` 
 4.  Удаление нарушения
     - **Метод:** DELETE
-    - **URL:** /violations/{violation_id}
+    - **URL:** /violation{violation_id}
     - **Описание:**  Удаление нарушения.
     - **Параметры запроса:**
       - `violation_id` (число, обязательно) - идентификатор нарушения, для которого отменяется назначение подрядчика.
@@ -248,4 +238,42 @@
       - 200 OK
       - 404 Not Found: Нарушение не найдено.
       
-    **Пример запроса** DELETE /construction_object/violation/1
+    **Пример запроса** DELETE /violation1
+    
+6. Изменение статуса нарушения
+    - **Метод:** PUT
+    - **URL:** /violation
+    - **Описание:**  Изменение статуса нарушения.
+    - **Параметры запроса:**
+      - `violation_id` (число, обязательно) - идентификатор нарушения, для которого отменяется назначение подрядчика.
+      - `new_status` (строка, обязательно) - новый статус
+    - **Ответ:** Код состояния HTTP 200 в случае успешного удаления.
+    - **Возможные коды ответов:**
+      - 200 OK
+      - 404 Not Found: Нарушение не найдено.
+      - 
+**Пример запроса:**
+```json
+ { 
+     "id": 3,
+     "new_status": "В работе"
+ }
+```
+     
+ ## Тестирование API
+ ### Создание пользователя
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/f77c01c4-7b95-490e-8057-332b9b2fcb9c)
+ ### Получнение всех объектов строительства
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/f80718b8-36ac-425c-8e85-08938a441e2b)
+ ### Создание объекта строительства
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/67bfc33a-31e3-417e-8814-fefef9db5598)
+ ### Создание нарушения
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/35add079-fec9-4980-9a46-6c6afd7c68bd)
+ ### Получение нарушений по объекту строительства
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/4f2523ad-5670-4e55-beb6-8dac7878ba17)
+ ### Получение нарушений по подрядчику
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/6d73b6b6-0eea-480f-a4b7-7804d1b8cebd)
+ ### Удаление нарушения
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/cd785b2d-2198-407a-b36b-b3f0c8be3f63)
+ ### Изменение статуса нарушения
+ ![image](https://github.com/ValeriaSuhinina/hse_paps/assets/126563738/0a306f7a-16ac-42ca-a0c5-5d833a732e08)
